@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Medicine Order Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #ffd54f;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .page-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 13px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+        }
+        .form-group.checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        .form-group.checkbox-group input {
+            width: auto;
+            margin-right: 8px;
+        }
+        .form-group.checkbox-group label {
+            font-size: 13px;
+            color: #555;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .buttons button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+        .reset-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .reset-btn:hover {
+            background-color: #da190b;
+            transform: translateY(-2px);
+        }
+        .dialog-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 350px;
+            width: 85%;
+        }
+        .dialog-box h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .dialog-box p {
+            color: #555;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .dialog-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        .dialog-box button:hover {
+            background-color: #45a049;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 999;
+        }
+        .error {
+            color: #f44336;
+            font-size: 11px;
+            margin-top: 4px;
+            display: none;
+        }
+        .success-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1001;
+            text-align: center;
+            max-width: 350px;
+            width: 85%;
+        }
+        .success-container .tick {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #4CAF50;
+            position: relative;
+            animation: pulse 1s ease-in-out;
+        }
+        .success-container .tick::before {
+            content: '✔';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .success-container h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        .success-container p {
+            color: #555;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        .success-container button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        .success-container button:hover {
+            background-color: #45a049;
+        }
+        .gif-container {
+            text-align: center;
+            margin: 15px 0;
+            width: 100%;
+        }
+        .gif-container img {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 3 / 1;
+            object-fit: cover;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        /* Media Queries for Enhanced Responsiveness */
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 15px;
+                max-width: 90%;
+            }
+            .form-container h2 {
+                font-size: 20px;
+            }
+            .form-group input, .form-group select {
+                padding: 8px;
+                font-size: 12px;
+            }
+            .form-group label {
+                font-size: 12px;
+            }
+            .buttons button {
+                padding: 8px;
+                font-size: 13px;
+            }
+            .dialog-box, .success-container {
+                max-width: 300px;
+                padding: 15px;
+            }
+            .dialog-box h3, .success-container h3 {
+                font-size: 16px;
+            }
+            .dialog-box p, .success-container p {
+                font-size: 12px;
+            }
+            .gif-container img {
+                max-width: 100%;
+                aspect-ratio: 3 / 1;
+            }
+        }
+        @media (max-width: 360px) {
+            .form-container {
+                padding: 12px;
+            }
+            .form-container h2 {
+                font-size: 18px;
+            }
+            .form-group input, .form-group select {
+                padding: 7px;
+                font-size: 11px;
+            }
+            .buttons button {
+                padding: 7px;
+                font-size: 12px;
+            }
+            .gif-container img {
+                max-width: 100%;
+            }
+        }
+        @media (min-width: 768px) {
+            .form-container {
+                padding: 25px;
+            }
+            .form-container h2 {
+                font-size: 24px;
+            }
+            .form-group input, .form-group select {
+                padding: 12px;
+                font-size: 14px;
+            }
+            .buttons button {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="gif-container">
+            <img src="https://raw.githubusercontent.com/diya4002/XMedicine/refs/heads/main/9ubed6.gif" alt="Decorative top animation" aria-label="Decorative top animation">
+        </div>
+
+        <div class="form-container">
+            <h2>X Medicine Order Form</h2>
+            <form id="orderForm" action="https://script.google.com/macros/s/AKfycbwqhESJbn4hV6YPnT8h2NuroqCvvXNbdS4ARkon0D2l6Hc0InaZZQuVjUfcjbncOogZ3Q/exec" method="POST">
+                <div class="form-group" id="referGroup" style="display: none;">
+                    <label for="refer">Refer</label>
+                    <input type="text" id="refer" name="refer" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telegram Phone Number</label>
+                    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                    <span class="error" id="phoneError">Phone number must be 10 digits.</span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="house">House/Building Number</label>
+                    <input type="text" id="house" name="house" required>
+                </div>
+                <div class="form-group">
+                    <label for="landmark">Landmark</label>
+                    <input type="text" id="landmark" name="landmark" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City/Village</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="pincode">Pin Code</label>
+                    <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" inputmode="numeric" required>
+                    <span class="error" id="pincodeError">Pin code must be 6 digits.</span>
+                </div>
+                <div class="form-group">
+                    <label for="product">Select Product</label>
+                    <select id="product" name="product" required>
+                        <option value="">Select an option</option>
+                        <option value="Capsule -- ₹999">Capsule -- ₹999</option>
+                        <option value="Oil -- ₹699">Oil -- ₹699/option>
+                          <option value="Capsule + Oil -- ₹1499">Capsule + Oil -- ₹1499</option>
+                    </select>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="agree" name="agree" required>
+                    <label for="agree">I agree to pay ₹100 advance</label>
+                </div>
+                <div class="buttons">
+                    <button type="button" class="submit-btn" onclick="showDialog()">Submit</button>
+                    <button type="reset" class="reset-btn">Reset</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="gif-container">
+            <img src="https://raw.githubusercontent.com/diya4002/XMedicine/refs/heads/main/9ubed6.gif" alt="Decorative bottom animation" aria-label="Decorative bottom animation">
+        </div>
+
+        <div class="overlay" id="overlay"></div>
+        <div class="dialog-box" id="dialogBox">
+            <h3>Confirm Your Details</h3>
+            <p id="dialogContent"></p>
+            <button onclick="submitForm()">Verify </button>
+        </div>
+
+        <div class="success-container" id="successBox">
+            <div class="tick"></div>
+            <h3>Order Placed Successfully!</h3>
+            <p>Your order has been submitted, and wait for message in Telegram</p>
+            <button onclick="closeSuccess()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Check for refer parameter in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const refer = urlParams.get('refer');
+        if (refer) {
+            document.getElementById('refer').value = refer;
+            document.getElementById('referGroup').style.display = 'block';
+        }
+
+        // Phone and Pincode validation
+        document.getElementById('phone').addEventListener('input', function () {
+            const phone = this.value;
+            const phoneError = document.getElementById('phoneError');
+            if (phone.length !== 10 || !/^[0-9]{10}$/.test(phone)) {
+                phoneError.style.display = 'block';
+            } else {
+                phoneError.style.display = 'none';
+            }
+        });
+
+        document.getElementById('pincode').addEventListener('input', function () {
+            const pincode = this.value;
+            const pincodeError = document.getElementById('pincodeError');
+            if (pincode.length !== 6 || !/^[0-9]{6}$/.test(pincode)) {
+                pincodeError.style.display = 'block';
+            } else {
+                pincodeError.style.display = 'none';
+            }
+        });
+
+        function showDialog() {
+            const form = document.getElementById('orderForm');
+            const phone = document.getElementById('phone').value;
+            const pincode = document.getElementById('pincode').value;
+
+            // Validate phone and pincode before showing dialog
+            if (!form.checkValidity() || phone.length !== 10 || !/^[0-9]{10}$/.test(phone) || pincode.length !== 6 || !/^[0-9]{6}$/.test(pincode)) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = new FormData(form);
+            let content = '';
+            for (let [key, value] of formData.entries()) {
+                if (key !== 'agree') {
+                    content += `<strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${value}<br>`;
+                }
+            }
+
+            document.getElementById('dialogContent').innerHTML = content;
+            document.getElementById('dialogBox').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function submitForm() {
+            const form = document.getElementById('orderForm');
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('dialogBox').style.display = 'none';
+                    document.getElementById('successBox').style.display = 'block';
+                    document.getElementById('overlay').style.display = 'block';
+                    form.reset();
+                } else {
+                    document.getElementById('dialogBox').style.display = 'none';
+                    document.getElementById('overlay').style.display = 'none';
+                    alert('Error submitting form: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('dialogBox').style.display = 'none';
+                document.getElementById('overlay').style.display = 'none';
+                alert('An error occurred while submitting the form.');
+            });
+        }
+
+        function closeSuccess() {
+            document.getElementById('successBox').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
