@@ -369,6 +369,10 @@
                         <option value="Vitamin Capsule + Massage Oil -- ₹1499">Vitamin Capsule + Massage Oil -- ₹1499</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <input type="hidden" id="date" name="date">
+                    <input type="hidden" id="time" name="time">
+                </div>
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="agree" name="agree" required>
                     <label for="agree">I agree to pay ₹100 advance</label>
@@ -451,6 +455,13 @@
                 referError.style.display = 'none';
             }
 
+            // Set date and time fields
+            const now = new Date();
+            const date = now.toISOString().split('T')[0]; // Format: yyyy-mm-dd
+            const time = now.toTimeString().split(' ')[0]; // Format: hh:mm:ss
+            document.getElementById('date').value = date;
+            document.getElementById('time').value = time;
+
             const formData = new FormData(form);
             let content = '';
             for (let [key, value] of formData.entries()) {
@@ -493,27 +504,34 @@
                     document.getElementById('city').value = '';
                     document.getElementById('pincode').value = '';
                     document.getElementById('product').value = '';
+                    document.getElementById('date').value = '';
+                    document.getElementById('time').value = '';
                     document.getElementById('agree').checked = false;
                     // Do not reset the refer field or hide referGroup
                     // Hide error messages
                     document.getElementById('phoneError').style.display = 'none';
                     document.getElementById('pincodeError').style.display = 'none';
                     document.getElementById('referError').style.display = 'none';
+                    // Re-enable both buttons after successful submission
+                    submitButton.disabled = false;
+                    verifyButton.disabled = false; // Re-enable Verify button for new submissions
                 } else {
                     document.getElementById('dialogBox').style.display = 'none';
                     document.getElementById('overlay').style.display = 'none';
                     alert('Error submitting form: ' + data.error);
+                    // Re-enable both buttons on error
+                    submitButton.disabled = false;
+                    verifyButton.disabled = false;
                 }
-                // Re-enable the submit button (verify button remains disabled)
-                submitButton.disabled = false;
             })
             .catch(error => {
                 console.error('Error:', error);
                 document.getElementById('dialogBox').style.display = 'none';
                 document.getElementById('overlay').style.display = 'none';
                 alert('An error occurred while submitting the form.');
-                // Re-enable the submit button (verify button remains disabled)
+                // Re-enable both buttons on error
                 submitButton.disabled = false;
+                verifyButton.disabled = false;
             });
         }
 
@@ -523,4 +541,4 @@
         }
     </script>
 </body>
-</html>
+                </html>
