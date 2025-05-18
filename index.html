@@ -329,6 +329,7 @@
                 <div class="form-group" id="referGroup" style="display: none;">
                     <label for="refer">Refer</label>
                     <input type="text" id="refer" name="refer" readonly>
+                    <span class="error" id="referError">Refer field cannot be empty.</span>
                 </div>
                 <div class="form-group">
                     <label for="name">Full Name</label>
@@ -433,11 +434,22 @@
             const form = document.getElementById('orderForm');
             const phone = document.getElementById('phone').value;
             const pincode = document.getElementById('pincode').value;
+            const refer = document.getElementById('refer').value;
+            const referGroup = document.getElementById('referGroup');
+            const referError = document.getElementById('referError');
 
-            // Validate phone and pincode before showing dialog
+            // Validate phone, pincode, and refer (if referGroup is visible)
             if (!form.checkValidity() || phone.length !== 10 || !/^[0-9]{10}$/.test(phone) || pincode.length !== 6 || !/^[0-9]{6}$/.test(pincode)) {
                 form.reportValidity();
                 return;
+            }
+
+            // Check if refer field is visible and empty
+            if (referGroup.style.display === 'block' && !refer.trim()) {
+                referError.style.display = 'block';
+                return;
+            } else {
+                referError.style.display = 'none';
             }
 
             const formData = new FormData(form);
