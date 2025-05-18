@@ -365,9 +365,9 @@
                     <label for="product">Select Product</label>
                     <select id="product" name="product" required>
                         <option value="">Select an option</option>
-                        <option value="Vitamin Capsule -- ₹999">Vitamin Capsule -- ₹999</option>
-                        <option value="Massage Oil -- ₹699">Massage Oil -- ₹699</option>
-                        <option value="Vitamin Capsule + Massage Oil -- ₹1499">Vitamin  Capsule + Massage Oil -- ₹1499</option>
+                        <option value="Capsule -- ₹999">Capsule -- ₹999</option>
+                        <option value="Oil -- ₹699">Oil -- ₹699</option>
+                        <option value="Capsule + Oil -- ₹1499">Capsule + Oil -- ₹1499</option>
                     </select>
                 </div>
                 <div class="form-group checkbox-group">
@@ -485,11 +485,20 @@
                     document.getElementById('dialogBox').style.display = 'none';
                     document.getElementById('successBox').style.display = 'block';
                     document.getElementById('overlay').style.display = 'block';
-                    // Reset the form
-                    form.reset();
-                    // Explicitly reset the refer field and hide its container
-                    document.getElementById('refer').value = '';
-                    document.getElementById('referGroup').style.display = 'none';
+                    // Clear specific fields instead of resetting the entire form
+                    document.getElementById('name').value = '';
+                    document.getElementById('phone').value = '';
+                    document.getElementById('house').value = '';
+                    document.getElementById('landmark').value = '';
+                    document.getElementById('city').value = '';
+                    document.getElementById('pincode').value = '';
+                    document.getElementById('product').value = '';
+                    document.getElementById('agree').checked = false;
+                    // Do not reset the refer field or hide referGroup
+                    // Hide error messages
+                    document.getElementById('phoneError').style.display = 'none';
+                    document.getElementById('pincodeError').style.display = 'none';
+                    document.getElementById('referError').style.display = 'none';
                 } else {
                     document.getElementById('dialogBox').style.display = 'none';
                     document.getElementById('overlay').style.display = 'none';
