@@ -98,6 +98,11 @@
             background-color: #45a049;
             transform: translateY(-2px);
         }
+        .submit-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
         .reset-btn {
             background-color: #f44336;
             color: white;
@@ -145,6 +150,10 @@
         }
         .dialog-box button:hover {
             background-color: #45a049;
+        }
+        .dialog-box button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
         .overlay {
             display: none;
@@ -357,7 +366,7 @@
                         <option value="">Select an option</option>
                         <option value="Capsule -- ₹999">Capsule -- ₹999</option>
                         <option value="Oil -- ₹699">Oil -- ₹699</option>
-                          <option value="Capsule + Oil -- ₹1499">Capsule + Oil -- ₹1499</option>
+                        <option value="Capsule + Oil -- ₹1499">Capsule + Oil -- ₹1499</option>
                     </select>
                 </div>
                 <div class="form-group checkbox-group">
@@ -379,7 +388,7 @@
         <div class="dialog-box" id="dialogBox">
             <h3>Confirm Your Details</h3>
             <p id="dialogContent"></p>
-            <button onclick="submitForm()">Verify </button>
+            <button id="verifyBtn" onclick="submitForm()">Verify</button>
         </div>
 
         <div class="success-container" id="successBox">
@@ -447,6 +456,12 @@
         function submitForm() {
             const form = document.getElementById('orderForm');
             const formData = new FormData(form);
+            const submitButton = document.querySelector('.submit-btn');
+            const verifyButton = document.getElementById('verifyBtn');
+
+            // Disable both submit and verify buttons to prevent multiple clicks
+            submitButton.disabled = true;
+            verifyButton.disabled = true;
 
             fetch(form.action, {
                 method: 'POST',
@@ -458,18 +473,26 @@
                     document.getElementById('dialogBox').style.display = 'none';
                     document.getElementById('successBox').style.display = 'block';
                     document.getElementById('overlay').style.display = 'block';
+                    // Reset the form
                     form.reset();
+                    // Explicitly reset the refer field and hide its container
+                    document.getElementById('refer').value = '';
+                    document.getElementById('referGroup').style.display = 'none';
                 } else {
                     document.getElementById('dialogBox').style.display = 'none';
                     document.getElementById('overlay').style.display = 'none';
                     alert('Error submitting form: ' + data.error);
                 }
+                // Re-enable the submit button (verify button remains disabled)
+                submitButton.disabled = false;
             })
             .catch(error => {
                 console.error('Error:', error);
                 document.getElementById('dialogBox').style.display = 'none';
                 document.getElementById('overlay').style.display = 'none';
                 alert('An error occurred while submitting the form.');
+                // Re-enable the submit button (verify button remains disabled)
+                submitButton.disabled = false;
             });
         }
 
