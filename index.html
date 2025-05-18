@@ -245,7 +245,6 @@
             50% { transform: scale(1.2); }
             100% { transform: scale(1); }
         }
-        /* Media Queries for Enhanced Responsiveness */
         @media (max-width: 480px) {
             .form-container {
                 padding: 15px;
@@ -365,9 +364,9 @@
                     <label for="product">Select Product</label>
                     <select id="product" name="product" required>
                         <option value="">Select an option</option>
-                        <option value="Capsule -- ₹999">Capsule -- ₹999</option>
-                        <option value="Oil -- ₹699">Oil -- ₹699</option>
-                        <option value="Capsule + Oil -- ₹1499">Capsule + Oil -- ₹1499</option>
+                        <option value="Vitamin Capsule -- ₹999">Vitamin Capsule -- ₹999</option>
+                        <option value="Massage Oil -- ₹699">Massage Oil -- ₹699</option>
+                        <option value="Vitamin Capsule + Massage Oil -- ₹1499">Vitamin Capsule + Massage Oil -- ₹1499</option>
                     </select>
                 </div>
                 <div class="form-group checkbox-group">
@@ -488,6 +487,7 @@
                     // Clear specific fields instead of resetting the entire form
                     document.getElementById('name').value = '';
                     document.getElementById('phone').value = '';
+                    document.getElementById('email').value = '';
                     document.getElementById('house').value = '';
                     document.getElementById('landmark').value = '';
                     document.getElementById('city').value = '';
