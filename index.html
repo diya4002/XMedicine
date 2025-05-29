@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X Medicine Order Form</title>
+    <title>Sex Medicine Order Form</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -229,17 +229,6 @@
         .success-container button:hover {
             background-color: #45a049;
         }
-        .gif-container {
-            text-align: center;
-            margin: 15px 0;
-            width: 100%;
-        }
-        .gif-container img {
-            width: 100%;
-            max-width: 450px;
-            aspect-ratio: 3 / 1;
-            object-fit: cover;
-        }
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.2); }
@@ -274,10 +263,6 @@
             .dialog-box p, .success-container p {
                 font-size: 12px;
             }
-            .gif-container img {
-                max-width: 100%;
-                aspect-ratio: 3 / 1;
-            }
         }
         @media (max-width: 360px) {
             .form-container {
@@ -293,9 +278,6 @@
             .buttons button {
                 padding: 7px;
                 font-size: 12px;
-            }
-            .gif-container img {
-                max-width: 100%;
             }
         }
         @media (min-width: 768px) {
@@ -318,12 +300,8 @@
 </head>
 <body>
     <div class="page-container">
-        <div class="gif-container">
-            <img src="https://raw.githubusercontent.com/diya4002/XMedicine/refs/heads/main/9ubed6.gif" alt="Decorative top animation" aria-label="Decorative top animation">
-        </div>
-
         <div class="form-container">
-            <h2>X Medicine Order Form</h2>
+            <h2>Sex Medicine Order Form</h2>
             <form id="orderForm" action="https://script.google.com/macros/s/AKfycbwqhESJbn4hV6YPnT8h2NuroqCvvXNbdS4ARkon0D2l6Hc0InaZZQuVjUfcjbncOogZ3Q/exec" method="POST">
                 <div class="form-group" id="referGroup" style="display: none;">
                     <label for="refer">Refer</label>
@@ -361,15 +339,6 @@
                     <span class="error" id="pincodeError">Pin code must be 6 digits.</span>
                 </div>
                 <div class="form-group">
-                    <label for="product">Select Product</label>
-                    <select id="product" name="product" required>
-                        <option value="">Select an option</option>
-                        <option value="Vitamin Capsule -- ₹999">Vitamin Capsule -- ₹999</option>
-                        <option value="Massage Oil -- ₹699">Massage Oil -- ₹699</option>
-                        <option value="Vitamin Capsule + Massage Oil -- ₹1499">Vitamin Capsule + Massage Oil -- ₹1499</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <input type="hidden" id="date" name="date">
                     <input type="hidden" id="time" name="time">
                 </div>
@@ -382,10 +351,6 @@
                     <button type="reset" class="reset-btn">Reset</button>
                 </div>
             </form>
-        </div>
-
-        <div class="gif-container">
-            <img src="https://raw.githubusercontent.com/diya4002/XMedicine/refs/heads/main/9ubed6.gif" alt="Decorative bottom animation" aria-label="Decorative bottom animation">
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -503,7 +468,6 @@
                     document.getElementById('landmark').value = '';
                     document.getElementById('city').value = '';
                     document.getElementById('pincode').value = '';
-                    document.getElementById('product').value = '';
                     document.getElementById('date').value = '';
                     document.getElementById('time').value = '';
                     document.getElementById('agree').checked = false;
@@ -541,4 +505,4 @@
         }
     </script>
 </body>
-                </html>
+</html>
